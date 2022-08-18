@@ -1,4 +1,4 @@
-# <TRAVEL QUEST>
+# TRAVEL QUEST
 
 ## サイト概要
 ### サイトテーマ
