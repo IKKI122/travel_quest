@@ -1,0 +1,2 @@
+class RequestLike < ApplicationRecord
+end
