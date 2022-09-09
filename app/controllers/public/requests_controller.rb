@@ -3,6 +3,8 @@ class Public::RequestsController < ApplicationController
   end
 
   def new
+    @request=Request.new
+    @areas=Area
   end
   
   def create
