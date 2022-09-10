@@ -4,7 +4,7 @@ class Public::RequestsController < ApplicationController
 
   def new
     @request=Request.new
-    @areas=Area
+    @areas=Area.all
   end
   
   def create

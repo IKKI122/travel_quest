@@ -1,18 +1,20 @@
 <div class="container">
-<h2 class="mb-4">依頼投稿</h2>
+<h2 class="m-4">依頼投稿</h2>
     <div class="row justify-content-center">
     <%= form_with model: @request, url: requests_path, local: true do |f| %>
         <div class="form_group row mb-3">
             <label for="request_title" class="col-md-3">タイトル</label>
             <div class="request_title col-md-9"><%= f.text_field :title, placeholder: "タイトル" %></div>
         </div>
+        
         <div class="form_group row mb-3">
-            <label for="request_area" class="col-md-3">都道府県</label>
-            <div class="request_area col-md-9"><%= f.collection_select(:area_id, @areas, :id, :prefectures) %></div>
+            <label for="request_area" class="col-md-3">目的地</label>
+            <div class="request_area col-md-9"><%= f.collection_select(:area_id, @areas, :id, :prefectures, include_blank: "目的地を選択") %></div>
         </div>
+        
         <div class="form_group row mb-3">
             <label for="request_sentence" class="col-md-3">依頼概要</label>
-            <div class="request_sentence col-md-9"><%= f.text_area :introduction, size: "50x4", placeholder: "ここに説明文を記述します" %></div>
+            <div class="request_sentence col-md-9"><%= f.text_area :introduction, size: "50x4", placeholder: "依頼の詳細を記述してください。" %></div>
         </div>
         <div class="text-center mb-4"><%= f.submit '依頼を投稿する', class:'btn btn-success' %></div>
     <% end %>
