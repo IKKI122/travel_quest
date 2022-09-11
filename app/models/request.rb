@@ -6,4 +6,6 @@ class Request < ApplicationRecord
     belongs_to :user
     belongs_to :area
     
+    validates :area_id, :title, :request_sentence, presence: true
+    
 end

@@ -1,2 +1,39 @@
-<h1>Public::Requests#index</h1>
-<p>Find me in app/views/public/requests/index.html.erb</p>
+<div class="container">
+    <div class="row">
+        <h2 class="mt-4 mb-3">依頼一覧</h2>
+            <div class="ml-auto mt-4 mb-3">
+                <%= link_to "　依頼する　", new_request_path, class: "mb-3 btn btn-lg btn-primary font-weight-bold" %>
+            </div>
+    </div>
+    <div class="row">
+        <table class="table col-10 mx-auto">
+            <thead class="table-active">
+                <tr>
+                    <th>タイトル</th>
+                    <th>目的地</th>
+                    <th>依頼状況</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @requests.each do |request| %>
+                <tr>
+                    <td>
+                        <%= link_to request_path(request.id) do %>
+                            <%= request.title %>
+                        <% end %>
+                    </td>
+                    <td><%= request.area.prefectures %></td>
+                    <td>
+                        <% if request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @requests %></div>
+    </div>
+</div>
