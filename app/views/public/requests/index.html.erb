@@ -9,6 +9,7 @@
         <table class="table col-10 mx-auto">
             <thead class="table-active">
                 <tr>
+                    <th>依頼人</th>
                     <th>タイトル</th>
                     <th>目的地</th>
                     <th>依頼状況</th>
@@ -17,6 +18,11 @@
             <tbody>
             <% @requests.each do |request| %>
                 <tr>
+                    <td>
+                        <%= link_to user_path(request.user_id) do %>
+                            <%= request.user.user_name %>
+                        <% end %>
+                    </td>
                     <td>
                         <%= link_to request_path(request.id) do %>
                             <%= request.title %>

@@ -2,7 +2,6 @@ class Public::RequestsController < ApplicationController
   def index
     @request=Request.new
     @requests=Request.page(params[:page])
-    @area=@request.area
   end
 
   def new
@@ -22,6 +21,7 @@ class Public::RequestsController < ApplicationController
   end
 
   def show
+    @request=Request.find(params[:id])
   end
 
   def edit

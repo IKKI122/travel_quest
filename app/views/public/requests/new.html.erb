@@ -14,7 +14,7 @@
         
         <div class="form_group row mb-3">
             <label for="request_sentence" class="col-md-3">依頼内容</label>
-            <div class="request_sentence col-md-9"><%= f.text_area :introduction, size: "50x4", placeholder: "依頼の詳細を記述してください。" %></div>
+            <div class="request_sentence col-md-9"><%= f.text_area :request_sentence, size: "50x4", placeholder: "目的地や撮ってきてほしい写真の詳細を書いてください。" %></div>
         </div>
         <div class="text-center mb-4"><%= f.submit '依頼を投稿する', class:'btn btn-success' %></div>
     <% end %>
