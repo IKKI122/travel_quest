@@ -12,16 +12,18 @@ class Public::RequestsController < ApplicationController
   def create
     @request=Request.new(request_params)
     @request.user_id=current_user.id
-      if @request.save
-        redirect_to requests_path
-      else
-        @requests=Request.all
-        redirect_to new_request_path
-      end
+    if @request.save
+      redirect_to requests_path
+    else
+      @requests=Request.all
+      redirect_to new_request_path
+    end
   end
 
   def show
     @request=Request.find(params[:id])
+    @report=Report.new
+    @reports=Report.all
   end
 
   def edit
@@ -33,8 +35,10 @@ class Public::RequestsController < ApplicationController
   def destroy
   end
   
+  
   private
-    def request_params
-      params.require(:request).permit(:user_id, :area_id, :title, :request_sentence, :is_active)
-    end
+  
+  def request_params
+    params.require(:request).permit(:user_id, :area_id, :title, :request_sentence, :is_active)
+  end
 end

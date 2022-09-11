@@ -18,21 +18,25 @@ Rails.application.routes.draw do
     resources :relationships, only: [:create, :destroy]
     get '/relationships/followings'=>'relationships#followings', as:'followings'
     get '/relationships/followers'=>'relationships#followers', as:'followers'
-    resources :requests
-    resources :request_likes, only: [:create, :destroy]
-    resources :request_comments, only: [:create, :destroy]
-    resources :reports, only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :report_likes, only: [:create, :destroy]
-    resources :report_comments, only: [:create, :destroy]
+    resources :requests do
+      resources :request_likes, only: [:create, :destroy]
+      resources :request_comments, only: [:create, :destroy]
+      resources :reports, only: [:index, :new, :create, :edit, :update, :destroy] do
+        resources :report_likes, only: [:create, :destroy]
+        resources :report_comments, only: [:create, :destroy]
+      end
+    end
   end
   
   namespace :admin do
     root to: 'homes#top'
     resources :users, only: [:index, :show, :update]
-    resources :requests, only: [:index, :show, :destroy]
-    resources :request_comments, only: [:destroy]
-    resources :reports, only: [:index, :destroy]
-    resources :report_comments, only: [:destroy]
+    resources :requests, only: [:index, :show, :destroy] do
+      resources :request_comments, only: [:destroy]
+      resources :reports, only: [:index, :destroy] do
+        resources :report_comments, only: [:destroy]
+      end
+    end
   end
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

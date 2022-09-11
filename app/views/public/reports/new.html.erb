@@ -1,2 +1,18 @@
-<h1>Public::Reports#new</h1>
-<p>Find me in app/views/public/reports/new.html.erb</p>
+<div class="container">
+<h2 class="m-4">報告投稿</h2>
+    <div class="row justify-content-center">
+    <%= form_with model: @report, url: request_reports_path(@request.id), local: true do |f| %>
+        <div class="form_group row mb-3">
+            <label for="report_image" class="col-md-3">報告写真</label>
+            <div class="report_image col-md-9">
+                <%= f.file_field :report_images, accept: "image/*", multiple: true %>
+            </div>
+        </div>
+        <div class="form_group row mb-3">
+            <label for="report_sentence" class="col-md-3">報告文</label>
+            <div class="report_sentence col-md-9"><%= f.text_area :report_sentence, size: "50x4", placeholder: "撮影時の状況や依頼を受けてみての感想を書きましょう" %></div>
+        </div>
+        <div class="text-center mb-4"><%= f.submit '報告を投稿する', class:'btn btn-success' %></div>
+    <% end %>
+    </div>
+</div>

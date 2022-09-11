@@ -1,48 +1,63 @@
 <div class="container">
-    <h2 class="m-4">商品詳細</h2>
-    <div class="row justify-content-center">
-        <table class="table table-bordered col-10 mx-auto">
-            <tr>
-                <td class="table-active" style="width:30%">依頼人</td>
-                <td style="width:70%">
-                    <%= link_to user_path(@request.user_id) do %>
-                        <%= @request.user.user_name %>
-                    <% end %>
-                </td>
-            </tr>
-            <tr>
-                <td class="table-active" style="width:30%">タイトル</td>
-                <td style="width:70%"><%= @request.title %></td>
-            </tr>
-            <tr>
-                <td class="table-active" style="width:30%">エリア</td>
-                <td style="width:70%"><%= @request.area.prefectures %></td>
-            </tr>
-            <tr >
-                <td class="table-active" style="width:30%">依頼内容</td>
-                <td style="width:70%"><%= @request.request_sentence %></td>
-            </tr>
-            <tr>
-                <td class="table-active" style="width:30%" valign="top">依頼状況</td>
-                <td style="width:70%">
-                    <% if @request.is_active == false %>
-                        <div class="text-success font-weight-bold"><%= "依頼中" %></div>
-                　  <% else %>
-                        <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
-                    <% end %>
-                </td>
-            </tr>
-        </table>
-        <div>
+    <div>
+    <h2 class="m-4">依頼詳細</h2>
+        <div class="row justify-content-center">
+            <table class="table table-bordered col-10 mx-auto">
+                <tr>
+                    <td class="table-active" style="width:30%">依頼人</td>
+                    <td style="width:70%">
+                        <%= link_to user_path(@request.user_id) do %>
+                            <%= @request.user.user_name %>
+                        <% end %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active" style="width:30%">タイトル</td>
+                    <td style="width:70%"><%= @request.title %></td>
+                </tr>
+                <tr>
+                    <td class="table-active" style="width:30%">エリア</td>
+                    <td style="width:70%"><%= @request.area.prefectures %></td>
+                </tr>
+                <tr >
+                    <td class="table-active" style="width:30%">依頼内容</td>
+                    <td style="width:70%"><%= @request.request_sentence %></td>
+                </tr>
+                <tr>
+                    <td class="table-active" style="width:30%" valign="top">依頼状況</td>
+                    <td style="width:70%">
+                        <% if @request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                    　  <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center">
         <% if @request.is_active == false %>
-            <div  class="mt-2">
+            <div  class="mt-2 mb-4">
             <% if @request.user == current_user %>
                 <%= link_to "　編集する　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold" %>
             <% else  %>
-                <%= link_to "　報告する　", new_report_path, class:"btn btn-success font-weight-bold" %>
+                <%= link_to "　報告する　", new_request_report_path(@request.id), class:"btn btn-success font-weight-bold" %>
             <% end %>
             </div>
         <% end %>
         </div>
+    </div>
+    
+    <div>
+    <h2 class="m-4">報告一覧</h2>
+    <div class="row">
+        <% @report.each do |report| %>
+            <div class="">
+                <div class="card h-100">
+                    <div class="card-img"><%= image_tag report.get_report_image(200,200) %></div>
+                    <div class="card-title"><%= report.report_sentence %></div>
+                </div>
+            </div>
+        <% end %>
     </div>
 </div>
