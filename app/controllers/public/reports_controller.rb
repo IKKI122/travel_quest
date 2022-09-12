@@ -14,8 +14,7 @@ class Public::ReportsController < ApplicationController
     if report.save
       redirect_to request_path(request.id)
     else
-      reports=Report.all
-      redirect_to new_request_report_path(request.id)
+      render new_request_report_path(request.id)
     end
   end
 
@@ -31,6 +30,6 @@ class Public::ReportsController < ApplicationController
   private
   
   def report_params
-    params.require(:report).permit(:report_sentence, report_image: [ ])
+    params.require(:report).permit(:report_sentence, report_images: [])
   end
 end

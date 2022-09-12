@@ -23,7 +23,7 @@ class Public::RequestsController < ApplicationController
   def show
     @request=Request.find(params[:id])
     @report=Report.new
-    @reports=Report.all
+    @reports=@request.reports
   end
 
   def edit
