@@ -16,7 +16,7 @@ class Public::RequestsController < ApplicationController
       redirect_to requests_path
     else
       @requests=Request.all
-      redirect_to new_request_path
+      render :new
     end
   end
 
@@ -27,12 +27,26 @@ class Public::RequestsController < ApplicationController
   end
 
   def edit
+    @request=Request.find(params[:id])
+    @areas=Area.all
+    unless @request.user==current_user
+      redirect_to request_path(request.id)
+    end
   end
   
   def update
+    @request=Request.find(params[:id])
+    if @request.update(request_params)
+      redirect_to request_path(@request.id)
+    else
+      render :edit
+    end
   end
   
   def destroy
+    @request=Request.find(params[:id])
+    @request.destroy
+    redirect_to requests_path
   end
   
   

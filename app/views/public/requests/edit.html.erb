@@ -1,2 +1,22 @@
-<h1>Public::Requests#edit</h1>
-<p>Find me in app/views/public/requests/edit.html.erb</p>
+<div class="container">
+<h2 class="m-4">依頼編集</h2>
+    <div class="row justify-content-center">
+    <%= form_with model: @request, url: request_path(@request.id), method: :patch, local: true do |f| %>
+        <div class="form_group row mb-3">
+            <label for="request_title" class="col-md-3">タイトル</label>
+            <div class="request_title col-md-9"><%= f.text_field :title %></div>
+        </div>
+        
+        <div class="form_group row mb-3">
+            <label for="request_area" class="col-md-3">目的地</label>
+            <div class="request_area col-md-9"><%= f.collection_select(:area_id, @areas, :id, :prefectures, include_blank: "目的地を選択") %></div>
+        </div>
+        
+        <div class="form_group row mb-3">
+            <label for="request_sentence" class="col-md-3">依頼内容</label>
+            <div class="request_sentence col-md-9"><%= f.text_area :request_sentence, size: "50x4" %></div>
+        </div>
+        <div class="text-center mb-4"><%= f.submit '更新する', class:'btn btn-success' %></div>
+    <% end %>
+    </div>
+</div>

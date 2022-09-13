@@ -7,7 +7,9 @@ class Report < ApplicationRecord
     belongs_to :user
     belongs_to :request
     
+    validates :report_images, presence: true
     validates :report_sentence, presence: true
+    
     
     def get_report_image(width, height)
         unless report_image.attached?

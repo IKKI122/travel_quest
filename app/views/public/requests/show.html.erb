@@ -52,17 +52,24 @@
     <h2 class="m-4">報告一覧</h2>
     <div class="row justify-content-center">
         <% @reports.each do |report| %>
-            <div class="col-11 mx-auto mb-3">
+            <div class="col-10 col-offset-1 mx-auto mb-3">
                 <div class="card p-3">
                     <div class="card-user">
                         <%= link_to user_path(report.user_id) do %>
                             <%= report.user.user_name %>
                         <% end %>
                     </div>
-                    <% report.report_images.each do |report_image| %>
-                        <div class="card-img d-flex flex-row"><%= image_tag report_image, class:"m-1", :size => '250x200' %></div>
-                    <% end %>
+                    <div class="row card-img d-flex flex-row mx-auto">
+                        <% report.report_images.each do |report_image| %>
+                           <div><%= image_tag report_image, class:"m-1", :size => '210x200' %></div>
+                        <% end %>
+                    </div>
                     <div class="card-sentence"><%= report.report_sentence %></div>
+                    <div  class="m-1 ml-auto">
+                        <% if report.user == current_user %>
+                            <%= link_to "編集する", edit_request_report_path(@request.id), class:"btn btn-sm btn-success font-weight-bold" %>
+                        <% end %>
+                    </div>
                 </div>
             </div>
         <% end %>
