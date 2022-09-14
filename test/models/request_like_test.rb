@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RequestLikeTest < ActiveSupport::TestCase
+class RequestLikesTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

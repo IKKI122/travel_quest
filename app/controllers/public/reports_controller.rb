@@ -21,6 +21,12 @@ class Public::ReportsController < ApplicationController
   def edit
     @request=Request.find(params[:request_id])
     @report=Report.find(params[:id])
+    # pp '-----PM---------'
+    # pp "#{params[:request_id]} / #{params[:id]}"
+    # pp '-----CU---------'
+    # pp current_user
+    # pp '-----RU---------'
+    # pp @report.user
     unless @report.user==current_user
       redirect_to request_path(@request.id)
     end
@@ -37,11 +43,15 @@ class Public::ReportsController < ApplicationController
   end
   
   def destroy
+    @request=Request.find(params[:request_id])
+    @report=Report.find(params[:id])
+    @report.destroy
+    redirect_to request_path(@request.id)
   end
   
   private
   
   def report_params
-    params.require(:report).permit(:report_sentence, report_images: [])
+    params.require(:report).permit(:user_id, :request_id, :report_sentence, report_images: [])
   end
 end
