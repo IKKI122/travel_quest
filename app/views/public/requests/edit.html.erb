@@ -16,6 +16,13 @@
             <label for="request_sentence" class="col-md-3">依頼内容</label>
             <div class="request_sentence col-md-9"><%= f.text_area :request_sentence, size: "50x4" %></div>
         </div>
+        <div class="form-group row">
+            <label for="request_stastus" class="col-md-3">依頼状況</label>
+            <div class="request_stastus col-md-9">
+                <%= f.radio_button :is_active, "false" %>依頼中
+                <%= f.radio_button :is_active, "true", class:"ml-3" %>依頼完了
+            </div>
+        </div>
         <div class="text-center"><%= f.submit '更新する', class:'btn btn-success' %></div>
     <% end %>
     </div>
