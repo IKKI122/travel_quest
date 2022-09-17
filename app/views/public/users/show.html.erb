@@ -1,2 +1,36 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
+<div class="container">
+    <div class="row">
+        <h2 class="m-4">ユーザーページ</h2>
+        <% if @user == current_user %>
+            <div class="m-4 ml-auto">
+                <%= link_to edit_user_path(@user.id), class: "btn btn-outline-secondary btn-block" do %>
+                    <i class="fas fa-user-cog"></i>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+    <div class="row">    
+        <div class="m-4 mx-auto">
+            <%= image_tag @user.get_profile_image(150,150), style: "border-radius: 50%" %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mx-auto col-md-8 col_md-offset-4">
+            <table class="table">
+              <tbody>
+                  <tr>
+                	  <td style="width:10%">
+                	      <i class="fas fa-solid fa-user"></i>
+                	  </td>
+                	  <td style="width:90%"><%= @user.user_name %></td>
+                  </tr>
+                  <tr>
+                	  <td style="width:10%">
+                	      <i class="fas fa-solid fa-comment"></i>
+                	  </td>
+                	  <td style="width:90%"><%= @user.self_introduction %></td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

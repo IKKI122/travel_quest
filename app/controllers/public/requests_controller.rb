@@ -1,4 +1,6 @@
 class Public::RequestsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+  
   def index
     @request=Request.new
     @requests=Request.page(params[:page])

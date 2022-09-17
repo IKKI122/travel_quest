@@ -4,28 +4,29 @@
         <div class="row justify-content-center">
             <table class="table table-bordered col-10 mx-auto">
                 <tr>
-                    <td class="table-active" style="width:30%">依頼人</td>
-                    <td style="width:70%">
+                    <td class="table-active", style="width:20%">依頼人</td>
+                    <td style="width:80%">
                         <%= link_to user_path(@request.user_id) do %>
+                            <%= image_tag @request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
                             <%= @request.user.user_name %>
                         <% end %>
                     </td>
                 </tr>
                 <tr>
-                    <td class="table-active" style="width:30%">タイトル</td>
-                    <td style="width:70%"><%= @request.title %></td>
+                    <td class="table-active", style="width:20%">タイトル</td>
+                    <td style="width:80%"><%= @request.title %></td>
                 </tr>
                 <tr>
-                    <td class="table-active" style="width:30%">エリア</td>
-                    <td style="width:70%"><%= @request.area.prefectures %></td>
+                    <td class="table-active", style="width:20%">エリア</td>
+                    <td style="width:80%"><%= @request.area.prefectures %></td>
                 </tr>
                 <tr >
-                    <td class="table-active" style="width:30%">依頼内容</td>
-                    <td style="width:70%"><%= @request.request_sentence %></td>
+                    <td class="table-active", style="width:20%">依頼内容</td>
+                    <td style="width:80%"><%= @request.request_sentence %></td>
                 </tr>
                 <tr>
-                    <td class="table-active" style="width:30%" valign="top">依頼状況</td>
-                    <td style="width:70%">
+                    <td class="table-active", style="width:20%", valign="top">依頼状況</td>
+                    <td style="width:80%">
                         <% if @request.is_active == false %>
                             <div class="text-success font-weight-bold"><%= "依頼中" %></div>
                     　  <% else %>
@@ -41,7 +42,7 @@
                 <% if @request.user == current_user %>
                     <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
                     <%= link_to "　削除　", request_path(@request.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-danger font-weight-bold ml-2" %>
-                <% else  %>
+                <% else %>
                     <%= link_to "　報告する　", new_request_report_path(@request), class:"btn btn-success font-weight-bold" %>
                 <% end %>
             </div>
@@ -58,6 +59,7 @@
                     <div class="row m-1">
                         <div class="card-user">
                             <%= link_to user_path(report.user_id) do %>
+                                <%= image_tag report.user.get_profile_image(50,50), style: "border-radius: 50%" %>
                                 <%= report.user.user_name %>
                             <% end %>
                         </div>
@@ -65,7 +67,7 @@
                             <div class="icon ml-auto">
                                 <% if report.user == current_user %>
                                     <div>
-                                        <%= link_to "編集", edit_request_report_path(@request.id, report.id), "data-confirm" => "更新してよろしいですか？", class:"btn btn-sm btn-success mr-1" %>
+                                        <%= link_to "編集", edit_request_report_path(@request.id, report.id), class:"btn btn-sm btn-success mr-1" %>
                                         <%= link_to "削除", request_report_path(@request.id, report.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-sm btn-danger ml-1" %>
                                     </div>
                                 <% end %>

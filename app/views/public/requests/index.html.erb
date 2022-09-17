@@ -20,16 +20,23 @@
                 <tr>
                     <td>
                         <%= link_to user_path(request.user_id) do %>
-                            <%= request.user.user_name %>
+                            <div>
+                                <%= image_tag request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                            </div>
+                            <div>
+                                <%= request.user.user_name %>
+                            </div>
                         <% end %>
                     </td>
-                    <td>
+                    <td class="align-middle">
                         <%= link_to request_path(request.id) do %>
                             <%= request.title %>
                         <% end %>
                     </td>
-                    <td><%= request.area.prefectures %></td>
-                    <td>
+                    <td class="align-middle">
+                        <%= request.area.prefectures %>
+                    </td>
+                    <td class="align-middle">
                         <% if request.is_active == false %>
                             <div class="text-success font-weight-bold"><%= "依頼中" %></div>
                         <% else %>
