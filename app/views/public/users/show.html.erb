@@ -34,3 +34,39 @@
             </table>
         </div>
     </div>
+    
+    <div class="row justify-content-center">
+        <div class="row">
+            <h3 class="m-4">依頼履歴</h3>
+            <table class="table col-md-10 offset-md-2 mx-auto">
+                <tbody>
+                <% @requests.each do |request| %>
+                    <tr>
+                        <td class="align-middle">
+                            <%= link_to request_path(request.id) do %>
+                                <%= request.title %>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3 class="m-4">報告履歴</h3>
+            <table class="table col-md-10 offset-md-2 mx-auto">
+                <tbody>
+                <% @reports.each do |report| %>
+                    <tr>
+                        <td class="align-middle">
+                            <%= link_to request_path(report.request.id) do %>
+                                <%= report.request.title %>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

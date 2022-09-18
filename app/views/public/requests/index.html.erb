@@ -1,9 +1,11 @@
 <div class="container">
     <div class="row">
         <h2 class="mt-4 mb-3">依頼一覧</h2>
-            <div class="ml-auto mt-4 mb-3">
-                <%= link_to "　依頼する　", new_request_path, class: "mb-3 btn btn-lg btn-primary font-weight-bold" %>
-            </div>
+            <% if user_signed_in? %>
+                <div class="ml-auto mt-4 mb-3">
+                    <%= link_to "　依頼する　", new_request_path, class: "mb-3 btn btn-lg btn-primary font-weight-bold" %>
+                </div>
+            <% end %>
     </div>
     <div class="row">
         <table class="table col-10 mx-auto">
