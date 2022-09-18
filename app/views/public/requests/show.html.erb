@@ -2,51 +2,72 @@
     <div>
         <h2 class="m-4">依頼詳細</h2>
         <div class="row justify-content-center">
-            <table class="table table-bordered col-10 mx-auto">
-                <tr>
-                    <td class="table-active", style="width:20%">依頼人</td>
-                    <td style="width:80%">
-                        <%= link_to user_path(@request.user_id) do %>
-                            <%= image_tag @request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
-                            <%= @request.user.user_name %>
+            <div class="col-md-10">
+                <div class="card pt-2 px-4">
+                    <div class="row">
+                        <table class="table table-bordered mx-auto">
+                            <tr>
+                                <td class="table-active", style="width:20%">依頼人</td>
+                                <td style="width:80%">
+                                    <%= link_to user_path(@request.user_id) do %>
+                                        <%= image_tag @request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                                        <%= @request.user.user_name %>
+                                    <% end %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%">タイトル</td>
+                                <td style="width:80%"><%= @request.title %></td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%">エリア</td>
+                                <td style="width:80%"><%= @request.area.prefectures %></td>
+                            </tr>
+                            <tr >
+                                <td class="table-active", style="width:20%">依頼内容</td>
+                                <td style="width:80%"><%= @request.request_sentence %></td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%", valign="top">依頼状況</td>
+                                <td style="width:80%">
+                                    <% if @request.is_active == false %>
+                                        <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                                　  <% else %>
+                                        <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row ml-auto">
+                        <% if @request.request_liked_by?(current_user) %>
+                            <p>
+                                <%= link_to request_request_likes_path(@request), method: :delete do %>
+                                    ♥<%= @request.request_likes.count %>
+                                <% end %>
+                            </p>
+                        <% else %>
+                            <p>
+                                <%= link_to request_request_likes_path(@request), method: :post do %>
+                                    ♡<%= @request.request_likes.count %>
+                                <% end %>
+                            </p>
                         <% end %>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="table-active", style="width:20%">タイトル</td>
-                    <td style="width:80%"><%= @request.title %></td>
-                </tr>
-                <tr>
-                    <td class="table-active", style="width:20%">エリア</td>
-                    <td style="width:80%"><%= @request.area.prefectures %></td>
-                </tr>
-                <tr >
-                    <td class="table-active", style="width:20%">依頼内容</td>
-                    <td style="width:80%"><%= @request.request_sentence %></td>
-                </tr>
-                <tr>
-                    <td class="table-active", style="width:20%", valign="top">依頼状況</td>
-                    <td style="width:80%">
-                        <% if @request.is_active == false %>
-                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
-                    　  <% else %>
-                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
-                        <% end %>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="row justify-content-center">
-        <% if user_signed_in? && @request.is_active == false %>
-            <div  class="mt-2 mb-4">
-                <% if @request.user == current_user %>
-                    <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
-                    <%= link_to "　削除　", request_path(@request.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-danger font-weight-bold ml-2" %>
-                <% else %>
-                    <%= link_to "　報告する　", new_request_report_path(@request), class:"btn btn-success font-weight-bold" %>
-                <% end %>
+                    </div>
+                    <div class="row justify-content-center">
+                    <% if user_signed_in? && @request.is_active == false %>
+                        <div  class="mt-2 mb-4">
+                            <% if @request.user == current_user %>
+                                <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
+                                <%= link_to "　削除　", request_path(@request.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-danger font-weight-bold ml-2" %>
+                            <% else %>
+                                <%= link_to "　報告する　", new_request_report_path(@request), class:"btn btn-success font-weight-bold" %>
+                            <% end %>
+                        </div>
+                    <% end %>
+                    </div>
+                </div>
             </div>
-        <% end %>
         </div>
     </div>
     
@@ -81,6 +102,21 @@
                     </div>
                     <div class="card-sentence">
                         <div class="border rounded m-3 p-3 bg-light"><%= report.report_sentence %></div>
+                    </div>
+                    <div class="row ml-auto p-2">
+                        <% if @report.reportt_liked_by?(current_user) %>
+                            <p>
+                                <%= link_to request_report_report_likes_path(@request.id, report.id), method: :delete do %>
+                                    ♥<%= @report.report_likes.count %>
+                                <% end %>
+                            </p>
+                        <% else %>
+                            <p>
+                                <%= link_to request_report_report_likes_path(@request.id, report.id), method: :post do %>
+                                    ♡<%= @report.report_likes.count %>
+                                <% end %>
+                            </p>
+                        <% end %>
                     </div>
                 </div>
             </div>

@@ -19,10 +19,10 @@ Rails.application.routes.draw do
     get '/relationships/followers'=>'relationships#followers', as:'followers'
     resources :relationships, only: [:create, :destroy]
     resources :requests do
-      resources :request_likes, only: [:create, :destroy]
+      resource :request_likes, only: [:create, :destroy]
       resources :request_comments, only: [:create, :destroy]
       resources :reports, only: [:index, :new, :create, :edit, :update, :destroy] do
-        resources :report_likes, only: [:create, :destroy]
+        resource :report_likes, only: [:create, :destroy]
         resources :report_comments, only: [:create, :destroy]
       end
     end
