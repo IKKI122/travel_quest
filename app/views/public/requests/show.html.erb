@@ -3,7 +3,7 @@
         <h2 class="m-4">依頼詳細</h2>
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <div class="card pt-2 px-4">
+                <div class="card py-2 px-4">
                     <div class="row">
                         <table class="table table-bordered mx-auto">
                             <tr>
@@ -39,32 +39,66 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="row ml-auto">
-                        <% if @request.request_liked_by?(current_user) %>
-                            <p>
-                                <%= link_to request_request_likes_path(@request), method: :delete do %>
-                                    ♥<%= @request.request_likes.count %>
-                                <% end %>
-                            </p>
-                        <% else %>
-                            <p>
-                                <%= link_to request_request_likes_path(@request), method: :post do %>
-                                    ♡<%= @request.request_likes.count %>
-                                <% end %>
-                            </p>
-                        <% end %>
-                    </div>
-                    <div class="row justify-content-center">
-                    <% if user_signed_in? && @request.is_active == false %>
-                        <div  class="mt-2 mb-4">
-                            <% if @request.user == current_user %>
-                                <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
-                                <%= link_to "　削除　", request_path(@request.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-danger font-weight-bold ml-2" %>
+                    <% if user_signed_in? %>
+                        <div class="row ml-auto">
+                            <% if @request.request_liked_by?(current_user) %>
+                                <p>
+                                    <%= link_to request_request_likes_path(@request), method: :delete do %>
+                                        ♥<%= @request.request_likes.count %>
+                                    <% end %>
+                                </p>
                             <% else %>
-                                <%= link_to "　報告する　", new_request_report_path(@request), class:"btn btn-success font-weight-bold" %>
+                                <p>
+                                    <%= link_to request_request_likes_path(@request), method: :post do %>
+                                        ♡<%= @request.request_likes.count %>
+                                    <% end %>
+                                </p>
                             <% end %>
                         </div>
-                    <% end %>
+                    <% end %>    
+                    
+                    <div>
+                        <div class="row">
+                            <table class="table">
+                              <tbody>
+                                <% @request.request_comments.each do |request_comment| %>
+                                  <tr>
+                                    <td class="col-md-1">
+                                        <%= link_to user_path(request_comment.user_id) do %>
+                                            <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                            <%= request_comment.user.user_name %>
+                                        <% end %>
+                                    </td>
+                                    <td class="col-md-9"><%= request_comment.comment %></td>
+                                    <% if request_comment.user == current_user %>
+                                        <td class="col-md-2"><%= link_to "削除", request_request_comment_path(@request.id, request_comment), class: "btn-sm btn-danger", method: :delete %></td>
+                                    <% end %>
+                                  </tr>
+                                <% end %>
+                              </tbody>
+                            </table>
+                        </div>
+                        <% if user_signed_in? %>
+                            <div class="row mt-3 justify-content-end">
+                                <%= form_with model: [@request, @request_comment] do |f| %>
+                                  <%= f.text_area :comment, size: "40x3", placeholder: "コメントを入力してください" %>
+                                  <%= f.submit '送信', class: "btn-sm btn-primary" %>
+                                <% end %>
+                            </div>
+                        <% end %>
+                    </div>
+                        
+                    <div class="row justify-content-center">
+                        <% if user_signed_in? && @request.is_active == false %>
+                            <div  class="mt-2 mb-4">
+                                <% if @request.user == current_user %>
+                                    <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
+                                    <%= link_to "　削除　", request_path(@request.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-danger font-weight-bold ml-2" %>
+                                <% else %>
+                                    <%= link_to "　報告する　", new_request_report_path(@request), class:"btn btn-success font-weight-bold" %>
+                                <% end %>
+                            </div>
+                        <% end %>
                     </div>
                 </div>
             </div>
@@ -76,7 +110,7 @@
     <div class="row justify-content-center">
         <% @reports.each do |report| %>
             <div class="col-10 col-offset-1 mx-auto mb-3">
-                <div class="card p-3">
+                <div class="card py-2 px-3">
                     <div class="row m-1">
                         <div class="card-user">
                             <%= link_to user_path(report.user_id) do %>
@@ -87,7 +121,7 @@
                         <% if @request.is_active == false %>
                             <div class="icon ml-auto">
                                 <% if report.user == current_user %>
-                                    <div>
+                                    <div class="mt-3">
                                         <%= link_to "編集", edit_request_report_path(@request.id, report.id), class:"btn btn-sm btn-success mr-1" %>
                                         <%= link_to "削除", request_report_path(@request.id, report.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:"btn btn-sm btn-danger ml-1" %>
                                     </div>
@@ -103,21 +137,55 @@
                     <div class="card-sentence">
                         <div class="border rounded m-3 p-3 bg-light"><%= report.report_sentence %></div>
                     </div>
-                    <div class="row ml-auto p-2">
-                        <% if @report.reportt_liked_by?(current_user) %>
-                            <p>
-                                <%= link_to request_report_report_likes_path(@request.id, report.id), method: :delete do %>
-                                    ♥<%= @report.report_likes.count %>
+                    <% if user_signed_in? %>
+                        <div class="row ml-auto p-2">
+                            <% if report.report_liked_by?(current_user) %>
+                                <p>
+                                    <%= link_to request_report_report_likes_path(@request.id, report.id), method: :delete do %>
+                                        ♥<%= report.report_likes.count %>
+                                    <% end %>
+                                </p>
+                            <% else %>
+                                <p>
+                                    <%= link_to request_report_report_likes_path(@request.id, report.id), method: :post do %>
+                                        ♡<%= report.report_likes.count %>
+                                    <% end %>
+                                </p>
+                            <% end %>
+                        </div>
+                    <% end %>
+                    
+                    <div>
+                        <div class="row px-2">
+                            <table class="table">
+                                <tbody>
+                                    <% report.report_comments.each do |report_comment| %>
+                                      <tr>
+                                        <td class="col-md-1">
+                                            <%= link_to user_path(report_comment.user_id) do %>
+                                                <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                                <%= report_comment.user.user_name %>
+                                            <% end %>
+                                        </td>
+                                        <td class="col-md-9"><%= report_comment.comment %></td>
+                                        <% if report_comment.user == current_user %>
+                                            <td class="col-md-2"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
+                                        <% end %>
+                                      </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% if user_signed_in? %>
+                            <div class="row mt-3 pr-2 justify-content-end">
+                                <%= form_with model: [report, @report_comment],url: request_report_report_comments_path(@request.id, report.id)  do |f| %>
+                                  <%= f.text_area :comment, size: "40x3", placeholder: "コメントを入力してください" %>
+                                  <%= f.submit '送信', class: "btn-sm btn-primary" %>
                                 <% end %>
-                            </p>
-                        <% else %>
-                            <p>
-                                <%= link_to request_report_report_likes_path(@request.id, report.id), method: :post do %>
-                                    ♡<%= @report.report_likes.count %>
-                                <% end %>
-                            </p>
+                            </div>
                         <% end %>
                     </div>
+                    
                 </div>
             </div>
         <% end %>

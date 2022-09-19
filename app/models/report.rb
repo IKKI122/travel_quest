@@ -19,7 +19,7 @@ class Report < ApplicationRecord
         report_image.variant(resize_to_limit: [width, height]).processed
     end
     
-    def reportt_liked_by?(user)
+    def report_liked_by?(user)
         report_likes.exists?(user_id: user.id)
     end
 end
