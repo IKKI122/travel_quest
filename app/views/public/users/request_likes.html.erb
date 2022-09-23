@@ -1,2 +1,49 @@
-<h1>Public::Users#request_likes</h1>
-<p>Find me in app/views/public/users/request_likes.html.erb</p>
+<div class="container">
+    <div class="row">
+        <h2 class="my-4">お気に入り依頼一覧</h2>
+    </div>
+    <div class="row">
+        <table class="table col-10 mx-auto">
+            <thead class="table-active">
+                <tr>
+                    <th>依頼人</th>
+                    <th>タイトル</th>
+                    <th>目的地</th>
+                    <th>依頼状況</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @request_likes.each do |request_like| %>
+                <tr>
+                    <td>
+                        <%= link_to user_path(request_like.request.user_id) do %>
+                            <div>
+                                <%= image_tag request_like.request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                            </div>
+                            <div>
+                                <%= request_like.request.user.user_name %>
+                            </div>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= link_to request_path(request_like.request.id) do %>
+                            <%= request_like.request.title %>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= request_like.request.area.prefectures %>
+                    </td>
+                    <td class="align-middle">
+                        <% if request_like.request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @request_likes %></div>
+    </div>
+</div>

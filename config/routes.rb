@@ -10,11 +10,18 @@ Rails.application.routes.draw do
   
   scope module: :public do
     root to: 'homes#top'
-    get '/users/:id/request_likes'=>'users#request_likes', as:'request_likes'
-    get '/users/:id/report_likes'=>'users#report_likes', as:'report_likes'
-    get '/users/unsubscribe/:id'=>'users#unsubscribe', as:'unsubscribe'
-    patch '/users/withdraw'=>'users#withdraw', as:'withdraw'
-    resources :users, only: [:index, :show, :edit, :update]
+    #patch '/users/withdraw'=>'users#withdraw', as:'withdraw'
+    #resources :users, only: [:index, :show, :edit, :update]
+    resources :users, only: [:index, :show, :edit, :update] do
+      member do
+        get 'request_likes'
+        get 'report_likes'
+        get 'unsubscribe'
+      end
+      collection do
+        patch 'withdraw'
+      end
+    end
     get '/relationships/followings'=>'relationships#followings', as:'followings'
     get '/relationships/followers'=>'relationships#followers', as:'followers'
     resources :relationships, only: [:create, :destroy]

@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  
+
   def index
   end
 
@@ -16,7 +16,7 @@ class Public::UsersController < ApplicationController
       redirect_to user_path(@user.id)
     end
   end
-  
+
   def update
     @user=current_user
     if @user.update(user_params)
@@ -26,10 +26,14 @@ class Public::UsersController < ApplicationController
     end
   end
 
-  def request_likes
+  def request_likes #いいねした依頼を一覧表示
+    @user=User.find(params[:id])
+    @request_likes=RequestLike.where(user_id: @user.id).page(params[:page]) #ユーザーがいいねした依頼を取得
   end
 
-  def report_likes
+  def report_likes #いいねした報告を一覧表示
+    @user=User.find(params[:id])
+    @report_likes=ReportLike.where(user_id: @user.id).page(params[:page]) #ユーザーがいいねした報告を取得
   end
 
   def unsubscribe
