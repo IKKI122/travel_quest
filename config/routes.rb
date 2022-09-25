@@ -21,11 +21,17 @@ Rails.application.routes.draw do
       collection do
         patch 'withdraw'
       end
+      resources :relationships, only: [:create, :destroy] do
+        collection do
+          get 'followings'
+          get 'followers'
+        end
+      end
     end
-    get '/relationships/followings'=>'relationships#followings', as:'followings'
-    get '/relationships/followers'=>'relationships#followers', as:'followers'
-    resources :relationships, only: [:create, :destroy]
     resources :requests do
+      collection do
+        get 'search'
+      end
       resource :request_likes, only: [:create, :destroy]
       resources :request_comments, only: [:create, :destroy]
       resources :reports, only: [:index, :new, :create, :edit, :update, :destroy] do

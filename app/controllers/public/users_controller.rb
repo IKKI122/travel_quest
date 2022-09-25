@@ -1,5 +1,5 @@
 class Public::UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes]
 
   def index
   end
@@ -44,6 +44,19 @@ class Public::UsersController < ApplicationController
     @user.update(is_deleted: true)
     reset_session
     redirect_to root_path
+  end
+  
+  # フォローしたときの処理
+  def follow(user_id)
+    relationships.create(following_id: user_id)
+  end
+  # フォローを外すときの処理
+  def unfollow(user_id)
+    relationships.find_by(followed_id: user_id).destroy
+  end
+  # フォローしているか判定
+  def following?(user)
+    followings.include?(user)
   end
   
   private

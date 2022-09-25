@@ -6,8 +6,14 @@ class User < ApplicationRecord
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+         
+  #フォロー、フォロワーの関係
+  has_many :followings, class_name: 'Relationship', foreign_key: 'following_id', dependent: :destroy, inverse_of: :following
+  has_many :followers, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy, inverse_of: :follower
+  # ユーザーとフォロー、フォロワーの関連付け
+  has_many :following_users, through: :followers, source: :following #followersを通じてfollowingにたどり着く
+  has_many :follower_users, through: :followings, source: :follower #followingsを通じてfollowerにたどり着く
   
-  has_many :relationships, dependent: :destroy
   has_many :reports, dependent: :destroy
   has_many :report_comments, dependent: :destroy
   has_many :report_likes, dependent: :destroy

@@ -69,7 +69,7 @@
                                             <%= request_comment.user.user_name %>
                                         <% end %>
                                     </td>
-                                    <td class="col-md-9"><%= request_comment.comment %></td>
+                                    <td class="col-md-9 align-middle"><%= request_comment.comment %></td>
                                     <% if request_comment.user == current_user %>
                                         <td class="col-md-2"><%= link_to "削除", request_request_comment_path(@request.id, request_comment), class: "btn-sm btn-danger", method: :delete %></td>
                                     <% end %>
@@ -106,7 +106,7 @@
     </div>
     
     <div>
-    <h2 class="m-4">報告一覧</h2>
+    <h2 class="mt-5 mx-4 mb-4">報告一覧</h2>
     <div class="row justify-content-center">
         <% @reports.each do |report| %>
             <div class="col-10 col-offset-1 mx-auto mb-3">
@@ -167,7 +167,7 @@
                                                 <%= report_comment.user.user_name %>
                                             <% end %>
                                         </td>
-                                        <td class="col-md-9"><%= report_comment.comment %></td>
+                                        <td class="col-md-9 align-middle"><%= report_comment.comment %></td>
                                         <% if report_comment.user == current_user %>
                                             <td class="col-md-2"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
                                         <% end %>

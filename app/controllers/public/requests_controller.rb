@@ -4,6 +4,8 @@ class Public::RequestsController < ApplicationController
   def index
     @request=Request.new
     @requests=Request.page(params[:page])
+    @q=Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
+    @areas=Area.all
   end
 
   def new
@@ -52,7 +54,10 @@ class Public::RequestsController < ApplicationController
     redirect_to requests_path
   end
   
-  
+  def search #検索結果の一覧表示
+    @q=Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
+    @results=@q.result(distinct: true) #distinct: trueで重複したデータを除外
+  end
   private
   
   def request_params

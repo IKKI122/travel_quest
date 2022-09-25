@@ -8,47 +8,74 @@
             <% end %>
     </div>
     <div class="row">
-        <table class="table col-10 mx-auto">
-            <thead class="table-active">
-                <tr>
-                    <th>依頼人</th>
-                    <th>タイトル</th>
-                    <th>目的地</th>
-                    <th>依頼状況</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% @requests.each do |request| %>
-                <tr>
-                    <td>
-                        <%= link_to user_path(request.user_id) do %>
-                            <div>
-                                <%= image_tag request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
-                            </div>
-                            <div>
-                                <%= request.user.user_name %>
-                            </div>
-                        <% end %>
-                    </td>
-                    <td class="align-middle">
-                        <%= link_to request_path(request.id) do %>
-                            <%= request.title %>
-                        <% end %>
-                    </td>
-                    <td class="align-middle">
-                        <%= request.area.prefectures %>
-                    </td>
-                    <td class="align-middle">
-                        <% if request.is_active == false %>
-                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
-                        <% else %>
-                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
-                        <% end %>
-                    </td>
-                </tr>
-            <% end %>
-            </tbody>
-        </table>
-        <div class="mx-auto"><%= paginate @requests %></div>
+        <!--sidemenu-->
+        <div class="col-3 side-memu">
+            <h3 class="mt-5">依頼検索</h3>
+            <div class="row mt-4">
+                <%= search_form_for @q, url: search_requests_path do |f| %>
+                <div class="form_group">
+                    <label for="request_title">・キーワード検索</label>
+                    <div class="row px-4">
+                        <div class="request_title"><%= f.search_field :title_cont %></div>
+                        <div><%= f.submit '検索' %></div>
+                    </div> 
+                </div>
+                <div class="form_group mt-4">
+                    <label for="request_area">・エリア検索</label>
+                    <div class="row px-4">
+                        <div class="request_area"><%= f.collection_select(:area_id_eq, @areas, :id, :prefectures, include_blank: "目的地を選択") %></div>
+                        <div><%= f.submit '検索' %></div>
+                    </div> 
+                </div>
+                <% end %>
+            </div>
+        </div>
+        <!--maincontent-->
+        <div class="col ml-3">
+            <div class="row">
+                <table class="table mx-auto">
+                    <thead class="table-active">
+                        <tr>
+                            <th>依頼人</th>
+                            <th>タイトル</th>
+                            <th>目的地</th>
+                            <th>依頼状況</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% @requests.each do |request| %>
+                        <tr>
+                            <td>
+                                <%= link_to user_path(request.user_id) do %>
+                                    <div>
+                                        <%= image_tag request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                                    </div>
+                                    <div>
+                                        <%= request.user.user_name %>
+                                    </div>
+                                <% end %>
+                            </td>
+                            <td class="align-middle">
+                                <%= link_to request_path(request.id) do %>
+                                    <%= request.title %>
+                                <% end %>
+                            </td>
+                            <td class="align-middle">
+                                <%= request.area.prefectures %>
+                            </td>
+                            <td class="align-middle">
+                                <% if request.is_active == false %>
+                                    <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                                <% else %>
+                                    <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+                <div class="mx-auto"><%= paginate @requests %></div>
+            </div>
+        </div>
     </div>
 </div>
