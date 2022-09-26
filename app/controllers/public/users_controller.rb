@@ -1,7 +1,8 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes]
 
-  def index
+  def index #current_user以外のユーザーを取得
+    @users=User.where.not(id: current_user.id)
   end
 
   def show
@@ -46,17 +47,14 @@ class Public::UsersController < ApplicationController
     redirect_to root_path
   end
   
-  # フォローしたときの処理
-  def follow(user_id)
-    relationships.create(following_id: user_id)
+  def followings #ユーザーの全フォローを取得
+    user=User.find(params[:id])
+    @users=user.followings
   end
-  # フォローを外すときの処理
-  def unfollow(user_id)
-    relationships.find_by(followed_id: user_id).destroy
-  end
-  # フォローしているか判定
-  def following?(user)
-    followings.include?(user)
+ 
+  def followers #ユーザーの全フォロワーを取得
+    user=User.find(params[:id])
+    @users=user.followers
   end
   
   private

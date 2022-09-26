@@ -6,13 +6,12 @@ class User < ApplicationRecord
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
-  #フォロー、フォロワーの関係
-  has_many :followings, class_name: 'Relationship', foreign_key: 'following_id', dependent: :destroy, inverse_of: :following
-  has_many :followers, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy, inverse_of: :follower
-  # ユーザーとフォロー、フォロワーの関連付け
-  has_many :following_users, through: :followers, source: :following #followersを通じてfollowingにたどり着く
-  has_many :follower_users, through: :followings, source: :follower #followingsを通じてfollowerにたどり着く
+  #フォロー側
+  has_many :relationships, foreign_key: :following_id, dependent: :destroy
+  has_many :followings, through: :relationships, source: :follower #ユーザーの全フォローをrelationshipsを介して取得
+  #フォロワー側
+  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: :follower_id, dependent: :destroy
+  has_many :followers, through: :reverse_of_relationships, source: :following #ユーザーの全フォロワーをreverse_of_relationshipsを介して取得
   
   has_many :reports, dependent: :destroy
   has_many :report_comments, dependent: :destroy
@@ -32,4 +31,7 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
   
+  def is_followed_by?(user) #フォローされているか否かを判定
+    reverse_of_relationships.find_by(following_id: user.id).present?
+  end
 end

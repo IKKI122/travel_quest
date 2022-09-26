@@ -17,16 +17,13 @@ Rails.application.routes.draw do
         get 'request_likes'
         get 'report_likes'
         get 'unsubscribe'
+        get 'followings'
+        get 'followers'
       end
       collection do
         patch 'withdraw'
       end
-      resources :relationships, only: [:create, :destroy] do
-        collection do
-          get 'followings'
-          get 'followers'
-        end
-      end
+      resources :relationships, only: [:create, :destroy]
     end
     resources :requests do
       collection do
