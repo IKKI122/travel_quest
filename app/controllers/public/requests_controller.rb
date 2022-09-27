@@ -1,5 +1,5 @@
 class Public::RequestsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :search]
   
   def index
     @request=Request.new

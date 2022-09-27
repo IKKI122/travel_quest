@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       collection do
         patch 'withdraw'
       end
-      resources :relationships, only: [:create, :destroy]
+      resource :relationships, only: [:create, :destroy]
     end
     resources :requests do
       collection do

@@ -1,8 +1,8 @@
 class Public::UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes]
+  before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes, :followings, :followers]
 
-  def index #current_user以外のユーザーを取得
-    @users=User.where.not(id: current_user.id)
+  def index #退会していないユーザーのみ取得
+    @users=User.where.not(is_deleted: true)
   end
 
   def show
