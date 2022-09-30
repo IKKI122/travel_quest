@@ -1,2 +1,31 @@
-<h1>Admin::Users#index</h1>
-<p>Find me in app/views/admin/users/index.html.erb</p>
+<div class="container">
+    <div class="row">
+        <h2 class="my-4">ユーザー一覧</h2>
+    </div>
+    <div class="row">
+        <table class="table col-md-8 mx-auto text-center">
+            <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                    <td class="align-middle">
+                        <%= link_to admin_user_path(user) do %>
+                            <div>
+                                <%= image_tag user.get_profile_image(70,70), style: "border-radius: 50%" %>
+                                <%= user.user_name %>
+                            </div>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <% if user.is_deleted == false %>
+                            <div class="text-success font-weight-bold m-4 ml-auto"><%= "有効" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold m-4 ml-auto"><%= "退会" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @users %></div>
+    </div>
+</div>

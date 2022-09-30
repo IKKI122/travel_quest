@@ -1,2 +1,49 @@
-<h1>Admin::Requests#index</h1>
-<p>Find me in app/views/admin/requests/index.html.erb</p>
+<div class="container">
+    <div class="row">
+        <h2 class="my-4">依頼一覧</h2>
+    </div>
+    <div class="row">
+        <table class="table col-10 mx-auto">
+            <thead class="table-active">
+                <tr>
+                    <th>依頼人</th>
+                    <th>タイトル</th>
+                    <th>目的地</th>
+                    <th>依頼状況</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @requests.each do |request| %>
+                <tr>
+                    <td>
+                        <%= link_to admin_user_path(request.user_id) do %>
+                            <div>
+                                <%= image_tag request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                            </div>
+                            <div>
+                                <%= request.user.user_name %>
+                            </div>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= link_to admin_request_path(request.id) do %>
+                            <%= request.title %>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= request.area.prefectures %>
+                    </td>
+                    <td class="align-middle">
+                        <% if request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @requests %></div>
+    </div>
+</div>

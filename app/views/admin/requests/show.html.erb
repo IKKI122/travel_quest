@@ -1,2 +1,126 @@
-<h1>Admin::Requests#show</h1>
-<p>Find me in app/views/admin/requests/show.html.erb</p>
+<div class="container">
+    <div>
+        <h2 class="m-4">依頼詳細</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card py-2 px-4">
+                    
+                    <div class="row">
+                        <table class="table table-bordered mx-auto">
+                            <tr>
+                                <td class="table-active", style="width:20%">依頼人</td>
+                                <td style="width:80%">
+                                    <%= link_to admin_user_path(@request.user_id) do %>
+                                        <%= image_tag @request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                                        <%= @request.user.user_name %>
+                                    <% end %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%">タイトル</td>
+                                <td style="width:80%"><%= @request.title %></td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%">エリア</td>
+                                <td style="width:80%"><%= @request.area.prefectures %></td>
+                            </tr>
+                            <tr >
+                                <td class="table-active", style="width:20%">依頼内容</td>
+                                <td style="width:80%"><%= @request.request_sentence %></td>
+                            </tr>
+                            <tr>
+                                <td class="table-active", style="width:20%", valign="top">依頼状況</td>
+                                <td style="width:80%">
+                                    <% if @request.is_active == false %>
+                                        <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                                　  <% else %>
+                                        <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="row">
+                        <table class="table">
+                          <tbody>
+                            <% @request.request_comments.each do |request_comment| %>
+                              <tr>
+                                <td class="col-md-1">
+                                    <%= link_to admin_user_path(request_comment.user_id) do %>
+                                        <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                        <%= request_comment.user.user_name %>
+                                    <% end %>
+                                </td>
+                                <td class="col-md-9 align-middle"><%= request_comment.comment %></td>
+                                <td class="col-md-2 align-middle"><%= link_to "削除", admin_request_request_comment_path(@request.id, request_comment), class: "btn-sm btn-danger", method: :delete %></td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div  class="mt-2 mb-4">
+                            <%= link_to "　依頼を削除　", admin_request_path(@request.id), method: :delete, "data-confirm" => "削除してよろしいですか？", class:"btn btn-danger font-weight-bold ml-2" %>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+    <h2 class="mt-5 mx-4 mb-4">報告一覧</h2>
+    <div class="row justify-content-center">
+        <% @reports.each do |report| %>
+            <div class="col-10 col-offset-1 mx-auto mb-3">
+                <div class="card py-2 px-3">
+                    <div class="row m-1">
+                        <div class="card-user">
+                            <%= link_to admin_user_path(report.user_id) do %>
+                                <%= image_tag report.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                                <%= report.user.user_name %>
+                            <% end %>
+                        </div>
+                    </div>
+                    <div class="row card-img d-flex flex-row mx-auto">
+                        <% report.report_images.each do |report_image| %>
+                           <div><%= image_tag report_image, class:"m-1", :size => '210x200' %></div>
+                        <% end %>
+                    </div>
+                    <div class="card-sentence">
+                        <div class="border rounded m-3 p-3 bg-light"><%= report.report_sentence %></div>
+                    </div>
+                    
+                    <div class="row px-2">
+                        <table class="table">
+                            <tbody>
+                                <% report.report_comments.each do |report_comment| %>
+                                  <tr>
+                                    <td class="col-md-1">
+                                        <%= link_to admin_user_path(report_comment.user_id) do %>
+                                            <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                            <%= report_comment.user.user_name %>
+                                        <% end %>
+                                    </td>
+                                    <td class="col-md-9 align-middle"><%= report_comment.comment %></td>
+                                    <td class="col-md-2 align-middle"><%= link_to "削除", admin_request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
+                                  </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div  class="mt-2 mb-4">
+                            <%= link_to "　報告を削除　", admin_request_report_path(@request.id, report.id), method: :delete, "data-confirm" => "削除してよろしいですか？", class:"btn btn-danger font-weight-bold ml-2" %>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
