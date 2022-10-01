@@ -1,5 +1,5 @@
 class Public::UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes, :followings, :followers]
+  before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes, :followings, :followers, :user_requests, :user_reports]
 
   def index #退会していないユーザーのみ取得
     @users=User.where.not(is_deleted: true)
@@ -55,6 +55,16 @@ class Public::UsersController < ApplicationController
   def followers #ユーザーの全フォロワーを取得
     user=User.find(params[:id])
     @users=user.followers
+  end
+  
+  def user_requests #ユーザーの投稿した依頼を一覧表示
+    @user=User.find(params[:id])
+    @user_requests=@user.requests.page(params[:page])#ユーザーが投稿した依頼を取得
+  end
+  
+  def user_reports #ユーザーの投稿した報告を一覧表示
+    @user=User.find(params[:id])
+    @user_reports=@user.reports.page(params[:page]) #ユーザーが投稿した報告を取得
   end
   
   private

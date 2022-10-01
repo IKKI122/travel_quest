@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <h2 class="my-4"><%= @user.user_name %>さんの報告履歴</h2>
+    </div>
+    <div class="row">
+        <table class="table col-md-10 mx-auto">
+            <thead class="table-active">
+                <tr>
+                    <th>依頼人</th>
+                    <th>タイトル</th>
+                    <th>目的地</th>
+                    <th>依頼状況</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @user_reports.each do |user_report| %>
+                <tr>
+                    <td>
+                        <%= link_to user_path(user_report.request.user_id) do %>
+                            <div>
+                                <%= image_tag user_report.request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                            </div>
+                            <div>
+                                <%= user_report.request.user.user_name %>
+                            </div>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= link_to request_path(user_report.request.id) do %>
+                            <%= user_report.request.title %>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= user_report.request.area.prefectures %>
+                    </td>
+                    <td class="align-middle">
+                        <% if user_report.request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @user_reports %></div>
+    </div>
+</div>

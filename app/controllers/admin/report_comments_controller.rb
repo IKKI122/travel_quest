@@ -1,7 +1,7 @@
 class Admin::ReportCommentsController < ApplicationController
   def destroy
     ReportComment.find(params[:id]).destroy
-    redirect_to request_path(params[:request_id])
+    redirect_to admin_request_path(params[:request_id])
   end
   
   private

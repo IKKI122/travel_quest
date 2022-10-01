@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         get 'unsubscribe'
         get 'followings'
         get 'followers'
+        get 'user_requests'
+        get 'user_reports'
       end
       collection do
         patch 'withdraw'
