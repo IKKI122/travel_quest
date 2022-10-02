@@ -62,18 +62,19 @@
                             <table class="table">
                               <tbody>
                                 <% @request.request_comments.each do |request_comment| %>
-                                  <tr>
-                                    <td class="col-md-1">
-                                        <%= link_to user_path(request_comment.user_id) do %>
-                                            <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
-                                            <%= request_comment.user.user_name %>
+                                    <% next if request_comment.user.is_deleted == true %><!--退会済みのユーザーのコメントを飛ばしてeachを実行-->
+                                    <tr>
+                                        <td class="col-md-1">
+                                            <%= link_to user_path(request_comment.user_id) do %>
+                                                <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                                <%= request_comment.user.user_name %>
+                                            <% end %>
+                                        </td>
+                                        <td class="col-md-9 align-middle"><%= request_comment.comment %></td>
+                                        <% if request_comment.user == current_user %>
+                                            <td class="col-md-2"><%= link_to "削除", request_request_comment_path(@request.id, request_comment), class: "btn-sm btn-danger", method: :delete %></td>
                                         <% end %>
-                                    </td>
-                                    <td class="col-md-9 align-middle"><%= request_comment.comment %></td>
-                                    <% if request_comment.user == current_user %>
-                                        <td class="col-md-2"><%= link_to "削除", request_request_comment_path(@request.id, request_comment), class: "btn-sm btn-danger", method: :delete %></td>
-                                    <% end %>
-                                  </tr>
+                                    </tr>
                                 <% end %>
                               </tbody>
                             </table>
@@ -109,6 +110,7 @@
     <h2 class="mt-5 mx-4 mb-4">報告一覧</h2>
     <div class="row justify-content-center">
         <% @reports.each do |report| %>
+            <% next if report.user.is_deleted == true %><!--退会済みのユーザーの投稿を飛ばしてeachを実行-->
             <div class="col-10 col-offset-1 mx-auto mb-3">
                 <div class="card py-2 px-3">
                     <div class="row m-1">
@@ -160,18 +162,19 @@
                             <table class="table">
                                 <tbody>
                                     <% report.report_comments.each do |report_comment| %>
-                                      <tr>
-                                        <td class="col-md-1">
-                                            <%= link_to user_path(report_comment.user_id) do %>
-                                                <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
-                                                <%= report_comment.user.user_name %>
+                                        <% next if report_comment.user.is_deleted == true %><!--退会済みのユーザーのコメントを飛ばしてeachを実行-->
+                                        <tr>
+                                            <td class="col-md-1">
+                                                <%= link_to user_path(report_comment.user_id) do %>
+                                                    <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                                    <%= report_comment.user.user_name %>
+                                                <% end %>
+                                            </td>
+                                            <td class="col-md-9 align-middle"><%= report_comment.comment %></td>
+                                            <% if report_comment.user == current_user %>
+                                                <td class="col-md-2"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
                                             <% end %>
-                                        </td>
-                                        <td class="col-md-9 align-middle"><%= report_comment.comment %></td>
-                                        <% if report_comment.user == current_user %>
-                                            <td class="col-md-2"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
-                                        <% end %>
-                                      </tr>
+                                        </tr>
                                     <% end %>
                                 </tbody>
                             </table>

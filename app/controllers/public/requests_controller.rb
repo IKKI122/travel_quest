@@ -19,7 +19,7 @@ class Public::RequestsController < ApplicationController
     if @request.save
       redirect_to requests_path
     else
-      @requests=Request.all
+      @areas=Area.all
       render :new
     end
   end

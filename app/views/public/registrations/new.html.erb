@@ -4,7 +4,7 @@
     <%= form_with model: @user, url: user_registration_path, id: 'new_user', class: 'new_user', local: true do |f| %>
       <div class="row form_group text-center p-1">
         <%= f.label :"ユーザーネーム", class:"col-md-4" %>
-        <%= f.text_field :user_name, autofocus: true, autocomplete: "user_name", class:"col-md-5" %>
+        <%= f.text_field :user_name, autofocus: true, autocomplete: "user_name", class:"col-md-5", placeholder: "２〜２０字以内" %>
       </div>
     
       <div class="row form_group text-center p-1">

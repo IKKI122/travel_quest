@@ -6,6 +6,7 @@
         <table class="table col-md-8 mx-auto text-center">
             <tbody>
             <% @users.each do |user| %>
+                <% next if user.is_deleted == true %><!--退会済みのユーザーを飛ばしてeachを実行-->
                 <tr>
                     <td class="align-middle">
                         <%= link_to user_path(user) do %>

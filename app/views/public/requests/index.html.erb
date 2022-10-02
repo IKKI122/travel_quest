@@ -44,6 +44,7 @@
                     </thead>
                     <tbody>
                     <% @requests.each do |request| %>
+                        <% next if request.user.is_deleted == true %><!--退会済みのユーザーの投稿を飛ばしてeachを実行-->
                         <tr>
                             <td>
                                 <%= link_to user_path(request.user_id) do %>

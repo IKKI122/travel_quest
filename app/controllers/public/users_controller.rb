@@ -2,17 +2,15 @@ class Public::UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :request_likes, :report_likes, :followings, :followers, :user_requests, :user_reports]
 
   def index #退会していないユーザーのみ取得
-    @users=User.where.not(is_deleted: true)
+    @users = User.where.not(is_deleted: true)
   end
 
   def show
-    @user=User.find(params[:id])
-    @requests=@user.requests
-    @reports=@user.reports
+    @user = User.find(params[:id])
   end
 
   def edit
-    @user=User.find(params[:id])
+    @user = User.find(params[:id])
     unless @user == current_user
       redirect_to user_path(@user.id)
     end

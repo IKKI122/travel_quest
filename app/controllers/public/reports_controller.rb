@@ -10,12 +10,13 @@ class Public::ReportsController < ApplicationController
   end
   
   def create
-    request=Request.find(params[:request_id])
-    report=current_user.reports.new(report_params)
+    request = Request.find(params[:request_id])
+    report = current_user.reports.new(report_params)
     report.request_id=request.id
     if report.save
       redirect_to request_path(request.id)
     else
+      @request=Request.find(request.id)
       render :new
     end
   end
@@ -23,12 +24,6 @@ class Public::ReportsController < ApplicationController
   def edit
     @request=Request.find(params[:request_id])
     @report=Report.find(params[:id])
-    # pp '-----PM---------'
-    # pp "#{params[:request_id]} / #{params[:id]}"
-    # pp '-----CU---------'
-    # pp current_user
-    # pp '-----RU---------'
-    # pp @report.user
     unless @report.user==current_user
       redirect_to request_path(@request.id)
     end

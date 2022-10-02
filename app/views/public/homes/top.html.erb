@@ -1,2 +1,102 @@
-<h1>Public::Homes#top</h1>
-<p>Find me in app/views/public/homes/top.html.erb</p>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Travel Quest</title>
+  </head>
+    
+  <body>
+    <style type="text/css">
+        .main-container{
+          margin-bottom: 50px;
+          padding: 50px;
+          margin-left:auto;margin-right:auto;
+          background-image: url(<%= asset_path 'home_image.jpg' %>);
+          background-size: cover;
+          width: 800px;
+          height: 400px;
+          background-position: center;
+        }
+        
+        .main-info{
+          background-color: rgba(0,0,0,0.5);
+          text-align: center;
+          margin-top: 50px;
+          padding-bottom: 50px;
+          margin-right: 30px;
+          margin-left: 30px;
+        }
+        
+        p{
+          color: white;
+          padding-top: 50px;
+          font-weight: bold;
+        }
+    </style>
+    
+    <div class="container">
+        <div class="row mt-4">
+            <div class="main-container text-center">
+                <div class="main-info">
+                     <p>
+                      ようこそ、ながのCAKEへ！<br>
+                      このサイトは、ケーキ販売のECサイトになります。<br>
+                      会員でない方も商品の閲覧はできますが、<br>
+                      購入には会員登録が必要になります。
+                     </p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="row">
+                    <h3 class="my-4">新着依頼</h3>
+                </div>
+                <div class="row">
+                    <table class="table mx-auto">
+                        <thead class="table-active">
+                            <tr>
+                                <th>依頼人</th>
+                                <th>タイトル</th>
+                                <th>目的地</th>
+                                <th>依頼状況</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% @requests.each do |request| %>
+                            <% next if request.user.is_deleted == true %><!--退会済みのユーザーの投稿を飛ばしてeachを実行-->
+                            <tr>
+                                <td>
+                                    <%= link_to user_path(request.user_id) do %>
+                                        <div>
+                                            <%= image_tag request.user.get_profile_image(50,50), style: "border-radius: 50%" %>
+                                        </div>
+                                        <div>
+                                            <%= request.user.user_name %>
+                                        </div>
+                                    <% end %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= link_to request_path(request.id) do %>
+                                        <%= request.title %>
+                                    <% end %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= request.area.prefectures %>
+                                </td>
+                                <td class="align-middle">
+                                    <% if request.is_active == false %>
+                                        <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                                    <% else %>
+                                        <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

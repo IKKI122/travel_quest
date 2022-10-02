@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <h2 class="my-4"><%= @user.user_name %>さんの依頼履歴</h2>
+    </div>
+    <div class="row">
+        <table class="table col-md-9 mx-auto">
+            <thead class="table-active">
+                <tr>
+                    <th>タイトル</th>
+                    <th>目的地</th>
+                    <th>依頼状況</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @user_requests.each do |user_request| %>
+                <tr>
+                    <td class="align-middle">
+                        <%= link_to admin_request_path(user_request.id) do %>
+                            <%= user_request.title %>
+                        <% end %>
+                    </td>
+                    <td class="align-middle">
+                        <%= user_request.area.prefectures %>
+                    </td>
+                    <td class="align-middle">
+                        <% if user_request.is_active == false %>
+                            <div class="text-success font-weight-bold"><%= "依頼中" %></div>
+                        <% else %>
+                            <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+        <div class="mx-auto"><%= paginate @user_requests %></div>
+    </div>
+</div>
