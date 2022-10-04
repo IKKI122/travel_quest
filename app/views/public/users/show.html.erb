@@ -32,7 +32,7 @@
     </div>
     
     <div class="row mb-5 justify-content-center">
-        <p class="text-small"><%= link_to @user.followings.count, followings_user_path(@user) %>フォロー　<%= link_to @user.followers.count, followers_user_path(@user) %>フォロワー</p>
+        <p class="text-small"><%= link_to @user.followings.where.not(is_deleted: true).count, followings_user_path(@user) %>フォロー　<%= link_to @user.followers.where.not(is_deleted: true).count, followers_user_path(@user) %>フォロワー</p>
     </div>
     
     <div class="row mt-4 mb-2 justify-content-center">
