@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2022_09_14_161238) do
     t.integer "area_id"
     t.string "title"
     t.text "request_sentence"
-    t.boolean "is_active", default: false
+    t.boolean "is_active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -30,7 +30,7 @@
                             <tr>
                                 <td class="table-active", style="width:20%", valign="top">依頼状況</td>
                                 <td style="width:80%">
-                                    <% if @request.is_active == false %>
+                                    <% if @request.is_active == true %>
                                         <div class="text-success font-weight-bold"><%= "依頼中" %></div>
                                 　  <% else %>
                                         <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>
@@ -90,7 +90,7 @@
                     </div>
                         
                     <div class="row justify-content-center">
-                        <% if user_signed_in? && @request.is_active == false %>
+                        <% if user_signed_in? && @request.is_active == true %>
                             <div  class="mt-2 mb-4">
                                 <% if @request.user == current_user %>
                                     <%= link_to "　編集／依頼完了　", edit_request_path(@request.id), class:"btn btn-success font-weight-bold mr-2" %>
@@ -120,7 +120,7 @@
                                 <%= report.user.user_name %>
                             <% end %>
                         </div>
-                        <% if @request.is_active == false %>
+                        <% if @request.is_active == true %>
                             <div class="icon ml-auto">
                                 <% if report.user == current_user %>
                                     <div class="mt-3">

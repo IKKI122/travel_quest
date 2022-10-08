@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       end
       resource :request_likes, only: [:create, :destroy]
       resources :request_comments, only: [:create, :destroy]
-      resources :reports, only: [:index, :new, :create, :edit, :update, :destroy] do
+      resources :reports, only: [:new, :create, :edit, :update, :destroy] do
         resource :report_likes, only: [:create, :destroy]
         resources :report_comments, only: [:create, :destroy]
       end
@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     end
     resources :requests, only: [:index, :show, :destroy] do
       resources :request_comments, only: [:destroy]
-      resources :reports, only: [:index, :destroy] do
+      resources :reports, only: [:destroy] do
         resources :report_comments, only: [:destroy]
       end
     end

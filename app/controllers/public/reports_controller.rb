@@ -1,37 +1,33 @@
 class Public::ReportsController < ApplicationController
   before_action :authenticate_user!
-  
-  def index
-  end
-
   def new
-    @report=Report.new
-    @request=Request.find(params[:request_id])
+    @report = Report.new
+    @request = Request.find(params[:request_id])
   end
   
   def create
-    request = Request.find(params[:request_id])
-    report = current_user.reports.new(report_params)
-    report.request_id=request.id
-    if report.save
-      redirect_to request_path(request.id)
+    @request = Request.find(params[:request_id])
+    @report = current_user.reports.new(report_params)
+    @report.request_id = @request.id
+    if @report.save
+      redirect_to request_path(@request.id)
     else
-      @request=Request.find(request.id)
+      @request = Request.find(params[:request_id])
       render :new
     end
   end
 
   def edit
-    @request=Request.find(params[:request_id])
-    @report=Report.find(params[:id])
-    unless @report.user==current_user
+    @request = Request.find(params[:request_id])
+    @report = Report.find(params[:id])
+    unless @report.user == current_user
       redirect_to request_path(@request.id)
     end
   end
   
   def update
-    @request=Request.find(params[:request_id])
-    @report=Report.find(params[:id])
+    @request = Request.find(params[:request_id])
+    @report = Report.find(params[:id])
     if @report.update(report_params)
       redirect_to request_path(@request.id)
     else
@@ -40,8 +36,8 @@ class Public::ReportsController < ApplicationController
   end
   
   def destroy
-    @request=Request.find(params[:request_id])
-    @report=Report.find(params[:id])
+    @request = Request.find(params[:request_id])
+    @report = Report.find(params[:id])
     @report.destroy
     redirect_to request_path(@request.id)
   end

@@ -14,6 +14,7 @@
             </thead>
             <tbody>
             <% @request_likes.each do |request_like| %>
+                <% next if request_like.request.user.is_deleted == true %><!--退会済みのユーザーの投稿を飛ばしてeachを実行-->
                 <tr>
                     <td>
                         <%= link_to user_path(request_like.request.user_id) do %>
@@ -34,7 +35,7 @@
                         <%= request_like.request.area.prefectures %>
                     </td>
                     <td class="align-middle">
-                        <% if request_like.request.is_active == false %>
+                        <% if request_like.request.is_active == true %>
                             <div class="text-success font-weight-bold"><%= "依頼中" %></div>
                         <% else %>
                             <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>

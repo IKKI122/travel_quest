@@ -23,7 +23,7 @@
                         <%= user_request.area.prefectures %>
                     </td>
                     <td class="align-middle">
-                        <% if user_request.is_active == false %>
+                        <% if user_request.is_active == true && user_request.user.is_deleted == false %>
                             <div class="text-success font-weight-bold"><%= "依頼中" %></div>
                         <% else %>
                             <div class="text-secondary font-weight-bold"><%= "完了済み" %></div>

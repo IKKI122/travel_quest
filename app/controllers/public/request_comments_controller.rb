@@ -1,8 +1,8 @@
 class Public::RequestCommentsController < ApplicationController
   def create
-    @request=Request.find(params[:request_id])
-    @request_comment=@request.request_comments.new(request_comment_params)
-    @request_comment.user_id=current_user.id
+    @request = Request.find(params[:request_id])
+    @request_comment = @request.request_comments.new(request_comment_params)
+    @request_comment.user_id = current_user.id
     @request_comment.save
     redirect_to request_path(params[:request_id])
   end

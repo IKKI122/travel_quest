@@ -19,8 +19,8 @@
         <div class="form-group row">
             <label for="request_stastus" class="col-md-3">依頼状況</label>
             <div class="request_stastus col-md-9">
-                <%= f.radio_button :is_active, "false" %>依頼中
-                <%= f.radio_button :is_active, "true", class:"ml-3" %>依頼完了
+                <%= f.radio_button :is_active, "true" %>依頼中
+                <%= f.radio_button :is_active, "", class:"ml-3" %>依頼完了
             </div>
         </div>
         <div class="text-center"><%= f.submit '更新する', class:'btn btn-success' %></div>

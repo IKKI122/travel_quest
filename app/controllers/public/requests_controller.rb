@@ -2,45 +2,48 @@ class Public::RequestsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :search]
   
   def index
-    @request=Request.new
-    @requests=Request.page(params[:page])
-    @q=Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
-    @areas=Area.all
+    @request = Request.new
+    @requests = Request.page(params[:page])
+    @q = Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
+    @areas = Area.all #目的地の都道府県を取得
   end
 
   def new
-    @request=Request.new
-    @areas=Area.all
+    @request = Request.new
+    @areas = Area.all
   end
   
   def create
-    @request=Request.new(request_params)
-    @request.user_id=current_user.id
+    @request = Request.new(request_params)
+    @request.user_id = current_user.id
     if @request.save
       redirect_to requests_path
     else
-      @areas=Area.all
+      @areas = Area.all
       render :new
     end
   end
 
   def show
-    @request=Request.find(params[:id])
-    @reports=@request.reports
-    @request_comment=RequestComment.new
-    @report_comment=ReportComment.new
+    @request = Request.find(params[:id])
+    unless @request.user.is_deleted == false #依頼ユーザーが退会済みの場合は依頼一覧に遷移
+      redirect_to requests_path
+    end
+    @reports = @request.reports #依頼に対する報告を取得
+    @request_comment = RequestComment.new 
+    @report_comment = ReportComment.new
   end
 
   def edit
-    @request=Request.find(params[:id])
-    @areas=Area.all
-    unless @request.user==current_user
+    @request = Request.find(params[:id])
+    @areas = Area.all
+    unless @request.user == current_user
       redirect_to request_path(request.id)
     end
   end
   
   def update
-    @request=Request.find(params[:id])
+    @request = Request.find(params[:id])
     if @request.update(request_params)
       redirect_to request_path(@request.id)
     else
@@ -49,14 +52,14 @@ class Public::RequestsController < ApplicationController
   end
   
   def destroy
-    @request=Request.find(params[:id])
+    @request = Request.find(params[:id])
     @request.destroy
     redirect_to requests_path
   end
   
   def search #検索結果の一覧表示
-    @q=Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
-    @results=@q.result(distinct: true) #distinct: trueで重複したデータを除外
+    @q = Request.ransack(params[:q]) #送られてきたパラメーターを元にテーブルからデータを検索
+    @results = @q.result(distinct: true) #distinct: trueで重複したデータを除外
   end
   private
   
