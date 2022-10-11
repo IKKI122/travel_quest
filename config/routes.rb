@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   
   scope module: :public do
     root to: 'homes#top'
-    #patch '/users/withdraw'=>'users#withdraw', as:'withdraw'
-    #resources :users, only: [:index, :show, :edit, :update]
     resources :users, only: [:index, :show, :edit, :update] do
       member do
         get 'request_likes'

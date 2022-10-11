@@ -5,7 +5,7 @@ class Public::ReportsController < ApplicationController
     @request = Request.find(params[:request_id])
   end
   
-  def create
+  def create #依頼に対する報告を
     @request = Request.find(params[:request_id])
     @report = current_user.reports.new(report_params)
     @report.request_id = @request.id

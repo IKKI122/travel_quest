@@ -3,6 +3,6 @@ class Public::HomesController < ApplicationController
   
   def top
     @request = Request.new
-    @requests = Request.order('id DESC').limit(4)
+    @requests = Request.order('id DESC').limit(4) #最新４件の依頼を取得
   end
 end

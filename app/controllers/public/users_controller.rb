@@ -38,11 +38,11 @@ class Public::UsersController < ApplicationController
     @report_likes=ReportLike.where(user_id: @user.id).page(params[:page]) #ユーザーがいいねした報告を取得
   end
 
-  def unsubscribe
+  def unsubscribe #退会の確認画面
     @user = current_user
   end
   
-  def withdraw
+  def withdraw #会員ステータスを「退会」に更新
     @user = current_user
     @user.update(is_deleted: true)
     reset_session
