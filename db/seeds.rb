@@ -50,6 +50,7 @@ Area.create(id: 44, prefectures: "大分")
 Area.create(id: 45, prefectures: "宮崎")
 Area.create(id: 46, prefectures: "鹿児島")
 Area.create(id: 47, prefectures: "沖縄")
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -57,3 +58,11 @@ Area.create(id: 47, prefectures: "沖縄")
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+users = User.create!(
+  [
+    {email: 'olivia@test.com', user_name: 'Olivia', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user1.jpg"), filename:"sample-user1.jpg")},
+    {email: 'james@test.com', user_name: 'James', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user2.jpg"), filename:"sample-user2.jpg")},
+    {email: 'lucas@test.com', user_name: 'Lucas', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user3.jpg"), filename:"sample-user3.jpg")}
+  ]
+)
