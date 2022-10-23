@@ -63,23 +63,77 @@ Area.create(id: 47, prefectures: "沖縄")
 
 User.create!(
  [
-  {user_name: '大沼洋', email: 'onuma@test.com', password: 'onumapass', password_confirmation: 'onumapass'},
-  {user_name: '葛井貴之', email: 'kuzui@test.com', password: 'kuzuipass', password_confirmation: 'kuzuipass'},
-  {user_name: '藤木忠寿', email: 'fujiki@test.com', password: 'fujikipass', password_confirmation: 'fujikipass'},
+  {user_name: '大沼洋', email: 'onuma@test.com', password: 'onumapass', password_confirmation: 'onumapass', self_introduction: '大沼洋でございます。', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/profile_image1.jpg"),filename: "profile_image1.jpg")},
+  {user_name: '葛井貴之', email: 'kuzui@test.com', password: 'kuzuipass', password_confirmation: 'kuzuipass', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/profile_image2.jpg"),filename: "profile_image2.jpg")},
+  {user_name: '藤木忠寿', email: 'fujiki@test.com', password: 'fujikipass', password_confirmation: 'fujikipass', self_introduction: '甘いものが大好物です。'},
   {user_name: '上島雅道', email: 'ueshima@test.com', password: 'ueshimapass', password_confirmation: 'ueshimapass'}
  ]
 )
 
 Request.create!(
-  user_id: 1, area_id: 1, title: '札幌市時計台の激写', request_sentence: '札幌市にある時計台ががっかり名所だと聞き逆に気になったので、本当にがっかりなのか写真を撮ってきてください。'
+  [
+    {user_id: 1, area_id: 1, title: '札幌市時計台の激写', request_sentence: '札幌市にある時計台ががっかり名所だと聞き逆に気になったので、本当にがっかりなのか写真を撮ってきてください。'},
+    {user_id: 2, area_id: 47, title: '沖縄県・伊良部大橋', request_sentence: '沖縄県の伊良部大橋が無料で通れる橋では日本最長という話を聞きました。是非見てみたいのでどなたか行く機会があれば写真をお願いします。'},
+    {user_id: 3, area_id: 37, title: 'うどん県の名店', request_sentence: '香川県の美味しいうどん屋さんのうどんの写真をお願いします。'}
+  ]
+)
+
+RequestComment.create!(
+  [
+    {user_id: 3,request_id: 2, comment: '宮古島と伊良部島を結んでいるやつですかね？週末に家族で行くので撮ってきますよ！'},
+    {user_id: 2,request_id: 2, comment: 'それです！ぜひお願いします！'}
+  ]
 )
 
 Report.create!(
-  user_id: 2,
-  request_id: 1,
-  report_sentence: '北海道旅行中だったので撮ってきました！個人的には思ったより全然良かったです。',
-  report_images: [
-    ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/migrate/fixtures/report_image1-1.jpg"),filename: "report_image1-1.jpg"),
-    ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/migrate/fixtures/report_image1-2.jpg"),filename: "report_image1-2.jpg")
+  [
+    {
+      user_id: 2,
+      request_id: 1,
+      report_sentence: '北海道旅行中だったので撮ってきました！個人的には想像より全然良かったです。',
+      report_images: [
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image1-1.jpg"),filename: "report_image1-1.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image1-2.jpg"),filename: "report_image1-2.jpg")
+      ]
+    },
+    {
+      user_id: 3,
+      request_id: 2,
+      report_sentence: '撮ってきましたー！天気も良くロケーション最高でした✨',
+      report_images: [
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image2-1.jpg"),filename: "report_image2-1.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image2-2.jpg"),filename: "report_image2-2.jpg")
+      ]
+    },
+    {
+      user_id: 4,
+      request_id: 2,
+      report_sentence: '私はちょっと遠くからの写真を撮ってみたのでご覧ください！',
+      report_images: [
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image2-3.jpg"),filename: "report_image2-3.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image2-4.jpg"),filename: "report_image2-4.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image2-5.jpg"),filename: "report_image2-5.jpg")
+      ]
+    },
+    {
+      user_id: 1,
+      request_id: 3,
+      report_sentence: '左から山田家、竹清、うどんバカ一代、山越うどんです。どこも絶品でした！',
+      report_images: [
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image3-1.jpg"),filename: "report_image3-1.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image3-2.jpg"),filename: "report_image3-2.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image3-3.jpg"),filename: "report_image3-3.jpg"),
+        ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/report_image3-4.jpg"),filename: "report_image3-4.jpg")
+      ]
+    }
+  ]
+)
+
+ReportComment.create!(
+  [
+    {user_id: 1,report_id: 1, comment: '写真ありがとうございます！確かに十分立派に見えますね😁'},
+    {user_id: 2,report_id: 2, comment: '素敵な写真をありがとうございます！本当に素晴らしいロケーションですね😍'},
+    {user_id: 2,report_id: 3, comment: '写真ありがとうございます！引きだと橋の長さがよく分かりますね✨'},
+    {user_id: 1,report_id: 3, comment: '素敵な写真ですね！私も行ってみたくなりました！'}
   ]
 )

@@ -66,8 +66,12 @@
                                     <tr>
                                         <td class="col-md-1">
                                             <%= link_to user_path(request_comment.user_id) do %>
-                                                <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
-                                                <%= request_comment.user.user_name %>
+                                                <div>
+                                                    <%= image_tag request_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                                </div>
+                                                <div>
+                                                    <%= request_comment.user.user_name %>
+                                                </div>
                                             <% end %>
                                         </td>
                                         <td class="col-md-9 align-middle"><%= request_comment.comment %></td>
@@ -166,13 +170,17 @@
                                         <tr>
                                             <td class="col-md-1">
                                                 <%= link_to user_path(report_comment.user_id) do %>
-                                                    <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
-                                                    <%= report_comment.user.user_name %>
+                                                    <div>
+                                                        <%= image_tag report_comment.user.get_profile_image(30,30), style: "border-radius: 50%" %>
+                                                    </div>
+                                                    <div>
+                                                        <%= report_comment.user.user_name %>
+                                                    </div>
                                                 <% end %>
                                             </td>
                                             <td class="col-md-9 align-middle"><%= report_comment.comment %></td>
                                             <% if report_comment.user == current_user %>
-                                                <td class="col-md-2"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
+                                                <td class="col-md-2 align-middle"><%= link_to "削除", request_report_report_comment_path(report_comment.report.request, report_comment.report, report_comment), class: "btn-sm btn-danger", method: :delete %></td>
                                             <% end %>
                                         </tr>
                                     <% end %>
