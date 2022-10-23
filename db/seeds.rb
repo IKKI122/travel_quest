@@ -1,7 +1,9 @@
 Admin.create!(
-    email: 'admin@admin.com',
-    password: 'adminpass'
+  email: 'admin@admin.com',
+  password: 'adminpass'
 )
+
+
 
 Area.create(id: 1, prefectures: "北海道")
 Area.create(id: 2, prefectures: "青森")
@@ -59,10 +61,25 @@ Area.create(id: 47, prefectures: "沖縄")
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-users = User.create!(
-  [
-    {email: 'olivia@test.com', user_name: 'Olivia', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user1.jpg"), filename:"sample-user1.jpg")},
-    {email: 'james@test.com', user_name: 'James', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user2.jpg"), filename:"sample-user2.jpg")},
-    {email: 'lucas@test.com', user_name: 'Lucas', encrypted_password: 'password', is_deleted: 'true', profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user3.jpg"), filename:"sample-user3.jpg")}
+User.create!(
+ [
+  {user_name: '大沼洋', email: 'onuma@test.com', password: 'onumapass', password_confirmation: 'onumapass'},
+  {user_name: '葛井貴之', email: 'kuzui@test.com', password: 'kuzuipass', password_confirmation: 'kuzuipass'},
+  {user_name: '藤木忠寿', email: 'fujiki@test.com', password: 'fujikipass', password_confirmation: 'fujikipass'},
+  {user_name: '上島雅道', email: 'ueshima@test.com', password: 'ueshimapass', password_confirmation: 'ueshimapass'}
+ ]
+)
+
+Request.create!(
+  user_id: 1, area_id: 1, title: '札幌市時計台の激写', request_sentence: '札幌市にある時計台ががっかり名所だと聞き逆に気になったので、本当にがっかりなのか写真を撮ってきてください。'
+)
+
+Report.create!(
+  user_id: 2,
+  request_id: 1,
+  report_sentence: '北海道旅行中だったので撮ってきました！個人的には思ったより全然良かったです。',
+  report_images: [
+    ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/migrate/fixtures/report_image1-1.jpg"),filename: "report_image1-1.jpg"),
+    ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/migrate/fixtures/report_image1-2.jpg"),filename: "report_image1-2.jpg")
   ]
 )
